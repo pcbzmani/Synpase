@@ -1,0 +1,112 @@
+-- Databricks notebook source
+-- MAGIC %sql
+-- MAGIC -- This is auto-generated code
+-- MAGIC SELECT
+-- MAGIC     TOP 100 *
+-- MAGIC FROM
+-- MAGIC     OPENROWSET(
+-- MAGIC         BULK 'https://dlnyctxi.dfs.core.windows.net/fsnyctxi/raw/taxi_zone.csv',
+-- MAGIC         FORMAT = 'CSV',
+-- MAGIC         PARSER_VERSION = '2.0',
+-- MAGIC         HEADER_ROW = TRUE,
+-- MAGIC         ROWTERMINATOR = '\n',
+-- MAGIC         FIELDTERMINATOR = ','
+-- MAGIC     ) AS [result]
+-- MAGIC ;
+-- MAGIC 
+-- MAGIC EXEC sp_describe_first_result_set
+-- MAGIC     N'SELECT
+-- MAGIC     TOP 100 *
+-- MAGIC FROM
+-- MAGIC     OPENROWSET(
+-- MAGIC         BULK ''https://dlnyctxi.dfs.core.windows.net/fsnyctxi/raw/taxi_zone.csv'',
+-- MAGIC         FORMAT = ''CSV'',
+-- MAGIC         PARSER_VERSION = ''2.0'',
+-- MAGIC         HEADER_ROW = TRUE
+-- MAGIC     ) AS [result]'
+-- MAGIC ;
+-- MAGIC select * FROM
+-- MAGIC     OPENROWSET(
+-- MAGIC           BULK 'https://dlnyctxi.dfs.core.windows.net/fsnyctxi/raw/taxi_zone.csv',
+-- MAGIC         FORMAT = 'CSV',
+-- MAGIC         HEADER_ROW = TRUE,
+-- MAGIC         PARSER_VERSION = '2.0'
+-- MAGIC     )
+-- MAGIC     WITH(
+-- MAGIC         LocationID SMALLINT,
+-- MAGIC         Borough VARCHAR(15) COLLATE Latin1_General_100_CI_AI_SC_UTF8,
+-- MAGIC         Zone VARCHAR(50) COLLATE Latin1_General_100_CI_AI_SC_UTF8,
+-- MAGIC         service_zone VARCHAR(15) COLLATE Latin1_General_100_CI_AI_SC_UTF8 
+-- MAGIC     ) AS [result]
+-- MAGIC ;
+-- MAGIC 
+-- MAGIC select name, collation_name from sys.databases;
+-- MAGIC 
+-- MAGIC USE nyctaxi;
+-- MAGIC alter DATABASE nyctaxi collate Latin1_General_100_CI_AI_SC_UTF8;
+-- MAGIC select * FROM
+-- MAGIC     OPENROWSET(
+-- MAGIC           BULK 'https://dlnyctxi.dfs.core.windows.net/fsnyctxi/raw/taxi_zone_without_header.csv',
+-- MAGIC         FORMAT = 'CSV',
+-- MAGIC         PARSER_VERSION = '2.0'
+-- MAGIC     )
+-- MAGIC     WITH(
+-- MAGIC         location_id SMALLINT 1,
+-- MAGIC         borough VARCHAR(15) 2,
+-- MAGIC         zone VARCHAR(50) 3,
+-- MAGIC         service_zone VARCHAR(15)  4 
+-- MAGIC     ) AS [result];
+-- MAGIC 
+-- MAGIC select * FROM
+-- MAGIC     OPENROWSET(
+-- MAGIC           BULK 'https://dlnyctxi.dfs.core.windows.net/fsnyctxi/raw/taxi_zone_without_header.csv',
+-- MAGIC         FORMAT = 'CSV',
+-- MAGIC         PARSER_VERSION = '2.0'
+-- MAGIC     )
+-- MAGIC     WITH(
+-- MAGIC         borough VARCHAR(15) 2,
+-- MAGIC         zone VARCHAR(50) 3
+-- MAGIC     ) AS [result];
+-- MAGIC 
+-- MAGIC select * FROM
+-- MAGIC     OPENROWSET(
+-- MAGIC           BULK 'https://dlnyctxi.dfs.core.windows.net/fsnyctxi/raw/taxi_zone.csv',
+-- MAGIC         FORMAT = 'CSV',
+-- MAGIC         FIRSTROW = 2,
+-- MAGIC         PARSER_VERSION = '2.0'
+-- MAGIC     )
+-- MAGIC     WITH(
+-- MAGIC         location_id SMALLINT 1,
+-- MAGIC         borough VARCHAR(15) 2,
+-- MAGIC         zone VARCHAR(50) 3,
+-- MAGIC         service_zone VARCHAR(15) 4 
+-- MAGIC     ) AS [result]
+-- MAGIC ;
+-- MAGIC 
+-- MAGIC 
+-- MAGIC -- create data source
+-- MAGIC 
+-- MAGIC CREATE EXTERNAL DATA SOURCE fsnyctxi_raw
+-- MAGIC         WITH (
+-- MAGIC             LOCATION = 'abfss://fsnyctxi@dlnyctxi.dfs.core.windows.net/raw'
+-- MAGIC );
+-- MAGIC 
+-- MAGIC --drop external data SOURCE fsnyctxi_raw;
+-- MAGIC 
+-- MAGIC select * FROM
+-- MAGIC     OPENROWSET(
+-- MAGIC         BULK 'taxi_zone.csv',
+-- MAGIC         DATA_SOURCE = 'fsnyctxi_raw',
+-- MAGIC         FORMAT = 'CSV',
+-- MAGIC         FIRSTROW = 2,
+-- MAGIC         PARSER_VERSION = '2.0'
+-- MAGIC     )
+-- MAGIC     WITH(
+-- MAGIC         location_id SMALLINT 1,
+-- MAGIC         borough VARCHAR(15) 2,
+-- MAGIC         zone VARCHAR(50) 3,
+-- MAGIC         service_zone VARCHAR(15) 4 
+-- MAGIC     ) AS [result]
+-- MAGIC ;
+-- MAGIC 
+-- MAGIC select name, location from sys.external_data_sources;

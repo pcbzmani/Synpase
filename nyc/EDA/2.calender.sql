@@ -1,0 +1,32 @@
+-- Databricks notebook source
+-- MAGIC %sql
+-- MAGIC use nyctaxi;
+-- MAGIC 
+-- MAGIC select name, location from sys.external_data_sources;
+-- MAGIC 
+-- MAGIC -- calender file EDA
+-- MAGIC 
+-- MAGIC SELECT 
+-- MAGIC     *
+-- MAGIC     FROM
+-- MAGIC     OPENROWSET (
+-- MAGIC         BULK 'calendar.csv',
+-- MAGIC         DATA_SOURCE = 'fsnyctxi_raw',
+-- MAGIC         FIRSTROW = 2,
+-- MAGIC         FORMAT = 'CSV',
+-- MAGIC         PARSER_VERSION = '2.0'
+-- MAGIC     )WITH (
+-- MAGIC         date_key INT 1,
+-- MAGIC         date DATE 2,
+-- MAGIC         year smallint 3,
+-- MAGIC         month TINYINT 4,
+-- MAGIC         day TINYINT 5,
+-- MAGIC         day_name varchar(15) 6,
+-- MAGIC         day_of_year smallint 7,
+-- MAGIC         week_of_month TINYINT 8,
+-- MAGIC         week_of_year TINYINT 9,
+-- MAGIC         month_name varchar(15) 10,
+-- MAGIC         year_month INT 11,
+-- MAGIC         year_week int 12
+-- MAGIC     )
+-- MAGIC      AS [result]
