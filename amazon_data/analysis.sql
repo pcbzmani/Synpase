@@ -1,6 +1,5 @@
 -- Databricks notebook source
-use amz_data
-GO
+use amz_data;
 
 ALTER DATABASE nyc_taxi_ldw collate Latin1_General_100_BIN2_UTF8
 GO
